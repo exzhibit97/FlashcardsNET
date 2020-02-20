@@ -6,6 +6,7 @@ using FlashcardsAPI.Infrastcuture;
 using FlashcardsAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlashcardsAPI.Controllers
 {
@@ -73,7 +74,36 @@ namespace FlashcardsAPI.Controllers
             return CreatedAtAction("GetCard", new Card { Id = card.Id }, card);
         }
 
-        //To write: PUT and DELETE
+        [HttpPut("{id}")]
+        public ActionResult<Card> PutCard(int id, Card card)
+        {
+            if (id != card.Id )
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(card).State = EntityState.Modified;
+            _context.SaveChanges();
+
+            return NoContent();
+        }
+
+        public ActionResult<Card> DeleteCard(int id)
+        {
+            var card = _context.Cards.Find(id);
+
+            if (card == null)
+            {
+                return NotFound();
+            }
+
+            _context.Cards.Remove(card);
+            _context.SaveChanges();
+
+            return card;
+        }
+
+        //To write:DELETE
 
     }
 }

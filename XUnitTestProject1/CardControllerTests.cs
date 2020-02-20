@@ -239,5 +239,192 @@ namespace FlashcardsUnitTests
             Assert.IsType<CreatedAtActionResult>(result.Result);
         }
 
+        [Fact]
+        public void PutCardItem_ReturnsUpdatedObject()
+        {
+            //Arrange
+            var card = new Card
+            {
+                CardFront = "Front",
+                CardBack = "Back",
+            };
+
+            dbContext.Add(card);
+            dbContext.SaveChanges();
+
+            var cardId = card.Id;
+            card.CardFront = "New Front";
+
+            //Act
+            cardsController.PutCard(cardId, card);
+            var result = dbContext.Cards.Find(cardId);
+
+            //Assert
+            Assert.Equal(card.CardFront, result.CardFront);
+        }
+
+        [Fact]
+        public void PutCardItem_Returns204_WhenNoContent()
+        {
+            //Arrange
+            var card = new Card
+            {
+                CardFront = "Front",
+                CardBack = "Back",
+            };
+
+            dbContext.Add(card);
+            dbContext.SaveChanges();
+
+            var cardId = card.Id;
+            card.CardFront = "New Front";
+
+            //Act
+            var result = cardsController.PutCard(cardId, card);
+            
+
+            //Assert
+            Assert.IsType<NoContentResult>(result.Result);
+        }
+
+        [Fact]
+        public void PutCardItem_Returns400_OnBadRequest()
+        {
+            //Arrange
+            var card = new Card
+            {
+                CardFront = "Front",
+                CardBack = "Back",
+            };
+
+            dbContext.Add(card);
+            dbContext.SaveChanges();
+
+            var cardId = card.Id + 1;
+            card.CardFront = "New Front";
+
+            //Act
+            var result = cardsController.PutCard(cardId, card);            
+
+            //Assert
+            Assert.IsType<BadRequestResult>(result.Result);
+        }
+
+        [Fact]
+        public void PutCardItem_AttributeUnchanged_WhenObjectInvalid()
+        {
+            //Arrange
+            var card = new Card
+            {
+                CardFront = "Front",
+                CardBack = "Back",
+            };
+
+            dbContext.Add(card);
+            dbContext.SaveChanges();
+
+            var card2 = new Card
+            {
+                Id = card.Id,
+                CardFront = "Front2",
+                CardBack = "Back2",
+            };
+
+            var cardId = card.Id;            
+
+            //Act
+            cardsController.PutCard(cardId+1, card2);
+            var result = dbContext.Cards.Find(cardId);
+
+            //Assert
+            Assert.Equal(card.CardFront, result.CardFront);
+        }
+
+        [Fact]
+        public void DeleteCardItem_CountDecrementsByOne_WhenInvalidObjectProvided()
+        {
+            //Arrange
+            var card = new Card
+            {
+                CardFront = "Front",
+                CardBack = "Back",
+            };
+
+            dbContext.Add(card);
+            dbContext.SaveChanges();
+
+            var cardId = card.Id;
+            var oldCount = dbContext.Cards.Count();
+
+            //Act
+            cardsController.DeleteCard(cardId);
+
+            //Assert
+            Assert.Equal(oldCount-1, dbContext.Cards.Count());
+        }
+
+        [Fact]
+        public void DeleteCardItem_Returns200OK_WhenValidObjectProvided()
+        {
+            //Arrange
+            var card = new Card
+            {
+                CardFront = "Front",
+                CardBack = "Back",
+            };
+
+            dbContext.Add(card);
+            dbContext.SaveChanges();
+
+            var cardId = card.Id;
+            //Act
+            var result = cardsController.DeleteCard(cardId);
+
+            //Assert
+            Assert.Null(result.Result);
+        }
+
+        [Fact]
+        public void DeleteCardItem_Returns404NotFound_WhenInvalidObjectProvided()
+        {
+            //Arrange
+            var card = new Card
+            {
+                CardFront = "Front",
+                CardBack = "Back",
+            };
+
+            dbContext.Add(card);
+            dbContext.SaveChanges();
+
+            var cardId = card.Id;
+            //Act
+            var result = cardsController.DeleteCard(cardId+1);
+
+            //Assert
+            Assert.IsType<NotFoundResult>(result.Result);
+        }
+
+        [Fact]
+        public void DeleteCardItem_CountDoesNotDecrementByOne_WhenInvalidObjectProvided()
+        {
+            //Arrange
+            var card = new Card
+            {
+                CardFront = "Front",
+                CardBack = "Back",
+            };
+
+            dbContext.Add(card);
+            dbContext.SaveChanges();
+
+            var cardId = card.Id;
+            var oldCount = dbContext.Cards.Count();
+            //Act
+            cardsController.DeleteCard(cardId+1);
+
+            //Assert
+            Assert.Equal(oldCount, dbContext.Cards.Count());
+        }
     }
 }
