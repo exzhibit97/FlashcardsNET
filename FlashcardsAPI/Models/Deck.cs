@@ -7,8 +7,11 @@ namespace FlashcardsAPI.Models
 {
     public class Deck
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Description { get; set; }
-        public List<Flashcard> Flashcards { get; set; }
+        public ICollection<Card> Cards { get; set; } = new List<Card>();
+
+        public Deck() { }
+
     }
 }
