@@ -35,7 +35,7 @@ namespace FlashcardsUnitTests
             testCard.CardFront = "New Front";
 
             //Assert
-            Assert.Equal("New Fronts", testCard.CardFront);
+            Assert.Equal("New Front", testCard.CardFront);
         }        
     }
 }
