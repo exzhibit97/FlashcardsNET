@@ -22,7 +22,7 @@ steps:
   displayName: 'dotnet test'
   inputs:
     command: test
-    projects: '**/*FlashcardsUnitTests/*.csproj'
+    projects: '**/*Tests/*.csproj'
     testRunTitle: 'xUNit Test Run'
     
 - script: dotnet build --configuration $(buildConfiguration)
