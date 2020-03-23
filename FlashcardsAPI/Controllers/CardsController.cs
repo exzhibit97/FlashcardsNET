@@ -21,14 +21,14 @@ namespace FlashcardsAPI.Controllers
 
         //GET:/api/cards - get all cards
         [HttpGet]
-        public ActionResult<IEnumerable<Card>> GetCards()
+        public ActionResult<IEnumerable<CardDTO>> GetCards()
         {
             return _context.Cards;
         }
 
         //GET:/api/cards/5 - get specific card
         [HttpGet("{id}")]
-        public ActionResult<Card> GetCard(int id)
+        public ActionResult<CardDTO> GetCard(int id)
         {
             var card = _context.Cards.Find(id);
 
@@ -36,30 +36,11 @@ namespace FlashcardsAPI.Controllers
                 return NotFound();
 
             return card;
-        }
-
-        [HttpGet("{id}/cards")]
-        public ActionResult<IEnumerable<Card>> GetDeckCards(int id)
-        {
-            var deck = _context.Decks.Find(id);
-
-            if (deck == null)
-            {
-                return NotFound();
-            }
-
-            var cards = _context.Cards.Where(c => c.DeckId == id);
-            if (cards == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(cards);
-        }
+        }        
 
         //POST: /api/cards - post new card
         [HttpPost]
-        public ActionResult<Card> CreateCard(Card card)
+        public ActionResult<CardDTO> CreateCard(CardDTO card)
         {
             _context.Cards.Add(card);
             try
@@ -71,11 +52,11 @@ namespace FlashcardsAPI.Controllers
                 return BadRequest();
             }
 
-            return CreatedAtAction("GetCard", new Card { Id = card.Id }, card);
+            return CreatedAtAction("GetCard", new CardDTO { Id = card.Id }, card);
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Card> PutCard(int id, Card card)
+        public ActionResult<CardDTO> PutCard(int id, CardDTO card)
         {
             if (id != card.Id )
             {
@@ -88,7 +69,8 @@ namespace FlashcardsAPI.Controllers
             return NoContent();
         }
 
-        public ActionResult<Card> DeleteCard(int id)
+        [HttpDelete]
+        public ActionResult<CardDTO> DeleteCard(int id)
         {
             var card = _context.Cards.Find(id);
 

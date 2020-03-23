@@ -22,14 +22,14 @@ namespace FlashcardsAPI.Controllers
 
         //GET:/api/cards - get all cards
         [HttpGet]
-        public ActionResult<IEnumerable<Deck>> GetDecks()
+        public ActionResult<IEnumerable<DeckDTO>> GetDecks()
         {
             return _context.Decks;
         }
 
         
         [HttpGet("{id}")]
-        public ActionResult<Deck> GetDeck(int id)
+        public ActionResult<DeckDTO> GetDeck(int id)
         {
             var deck = _context.Decks.Find(id);
 
@@ -39,15 +39,35 @@ namespace FlashcardsAPI.Controllers
             }
 
             return deck;
-        }        
+        }
+
+        //GET:/api/decks/5/cards - get specific card
+        [HttpGet("{id}/cards")]
+        public ActionResult<IEnumerable<CardDTO>> GetDeckCards(int id)
+        {
+            var deck = _context.Decks.Find(id);
+
+            if (deck == null)
+            {
+                return NotFound();
+            }
+
+            var cards = _context.Cards.Where(c => c.DeckId == id);
+            if (cards == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(cards);
+        }
 
         [HttpPost]
-        public ActionResult<Deck> CreateDeck(Deck deck)
+        public ActionResult<DeckDTO> CreateDeck(DeckDTO deck)
         {
             _context.Decks.Add(deck);
             _context.SaveChanges();
 
-            return CreatedAtAction("GetDeck", new Card { Id = deck.Id }, deck);
+            return CreatedAtAction("GetDeck", new CardDTO { Id = deck.Id }, deck);
         }
 
 

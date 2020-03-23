@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models;
+using System;
 using Xunit;
 
 namespace FlashcardsUnitTests
@@ -8,6 +9,8 @@ namespace FlashcardsUnitTests
         [Fact]
         public void Test1()
         {
+            Deck deck = new Deck(1, "deck", "new deck");
+            
 
         }
     }

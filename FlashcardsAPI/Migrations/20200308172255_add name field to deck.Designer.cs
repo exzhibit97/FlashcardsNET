@@ -3,14 +3,16 @@ using FlashcardsAPI.Infrastcuture;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FlashcardsAPI.Migrations
 {
     [DbContext(typeof(FlashcardContext))]
-    partial class FlashcardContextModelSnapshot : ModelSnapshot
+    [Migration("20200308172255_add name field to deck")]
+    partial class addnamefieldtodeck
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -51,7 +51,7 @@ namespace FlashcardsUnitTests
         public void GetCardItems_ReturnCountOne_WhenDBHasOne()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 CardFront = "Front",
                 CardBack = "Back",
@@ -73,7 +73,7 @@ namespace FlashcardsUnitTests
         public void GetCardItems_ReturnCount_WhenDBHasMany()
         {
             //Arrange
-            var card1 = new Card
+            var card1 = new CardDTO
             {
                 CardFront = "Front",
                 CardBack = "Back",
@@ -81,7 +81,7 @@ namespace FlashcardsUnitTests
                 DeckId = 23,
             };
 
-            var card2 = new Card
+            var card2 = new CardDTO
             {
                 CardFront = "Front1",
                 CardBack = "Back1",
@@ -89,7 +89,7 @@ namespace FlashcardsUnitTests
                 DeckId = 23,
             };
 
-            var card3 = new Card
+            var card3 = new CardDTO
             {
                 CardFront = "Front2",
                 CardBack = "Back2",
@@ -116,14 +116,14 @@ namespace FlashcardsUnitTests
             var result = cardsController.GetCards();
 
             //Assert
-            Assert.IsType<ActionResult<IEnumerable<Card>>>(result);
+            Assert.IsType<ActionResult<IEnumerable<CardDTO>>>(result);
         }
 
         [Fact]
         public void GetSingleCardItem_ReturnsTypeNull_WhenIdInvalid()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 Id = 5,
             };
@@ -142,7 +142,7 @@ namespace FlashcardsUnitTests
         public void GetSingleCardItem_Returns404_WhenIdInvalid()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 Id = 5,
             };
@@ -161,7 +161,7 @@ namespace FlashcardsUnitTests
         public void GetSingleCardItem_ReturnsCorrectType_WhenIdValid()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 Id = 5,                
             };
@@ -173,14 +173,14 @@ namespace FlashcardsUnitTests
             var result = cardsController.GetCard(5);
 
             //Assert
-            Assert.IsType<ActionResult<Card>>(result);
+            Assert.IsType<ActionResult<CardDTO>>(result);
         }
 
         [Fact]
         public void GetSingleCardItem_ReturnsCorrectResource_WhenIdValid()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 CardFront = "cardFront",
                 CardBack = "cardBack",
@@ -201,7 +201,7 @@ namespace FlashcardsUnitTests
         public void PostCardItem_CollectionSizeIncrementsByOne_WhenObjectValid()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 Id = 1,
                 CardFront = "Front",
@@ -223,7 +223,7 @@ namespace FlashcardsUnitTests
         public void PostCardItem_Returns201Created_WhenObjectValid()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 Id = 1,
                 CardFront = "Front",
@@ -243,7 +243,7 @@ namespace FlashcardsUnitTests
         public void PutCardItem_ReturnsUpdatedObject()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 CardFront = "Front",
                 CardBack = "Back",
@@ -267,7 +267,7 @@ namespace FlashcardsUnitTests
         public void PutCardItem_Returns204_WhenNoContent()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 CardFront = "Front",
                 CardBack = "Back",
@@ -291,7 +291,7 @@ namespace FlashcardsUnitTests
         public void PutCardItem_Returns400_OnBadRequest()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 CardFront = "Front",
                 CardBack = "Back",
@@ -314,7 +314,7 @@ namespace FlashcardsUnitTests
         public void PutCardItem_AttributeUnchanged_WhenObjectInvalid()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 CardFront = "Front",
                 CardBack = "Back",
@@ -323,7 +323,7 @@ namespace FlashcardsUnitTests
             dbContext.Add(card);
             dbContext.SaveChanges();
 
-            var card2 = new Card
+            var card2 = new CardDTO
             {
                 Id = card.Id,
                 CardFront = "Front2",
@@ -344,7 +344,7 @@ namespace FlashcardsUnitTests
         public void DeleteCardItem_CountDecrementsByOne_WhenInvalidObjectProvided()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 CardFront = "Front",
                 CardBack = "Back",
@@ -367,7 +367,7 @@ namespace FlashcardsUnitTests
         public void DeleteCardItem_Returns200OK_WhenValidObjectProvided()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 CardFront = "Front",
                 CardBack = "Back",
@@ -388,7 +388,7 @@ namespace FlashcardsUnitTests
         public void DeleteCardItem_Returns404NotFound_WhenInvalidObjectProvided()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 CardFront = "Front",
                 CardBack = "Back",
@@ -409,7 +409,7 @@ namespace FlashcardsUnitTests
         public void DeleteCardItem_CountDoesNotDecrementByOne_WhenInvalidObjectProvided()
         {
             //Arrange
-            var card = new Card
+            var card = new CardDTO
             {
                 CardFront = "Front",
                 CardBack = "Back",

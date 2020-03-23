@@ -5,13 +5,11 @@ using System.Threading.Tasks;
 
 namespace FlashcardsAPI.Models
 {
-    public class Deck
+    public class DeckDTO
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<Card> Cards { get; set; } = new List<Card>();
-
-        public Deck() { }
-
+        public ICollection<CardDTO> Cards { get; set; }
     }
 }

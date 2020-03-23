@@ -8,11 +8,11 @@ namespace FlashcardsUnitTests
     public class CardTests : IDisposable
     {
 
-        Card testCard;
+        CardDTO testCard;
 
         public CardTests()
         {
-            testCard = new Card()
+            testCard = new CardDTO()
             {
                 CardFront = "Front",
                 CardBack = "Back",
