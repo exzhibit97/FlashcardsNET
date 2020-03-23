@@ -38,7 +38,16 @@ namespace FlashcardsAPI.Controllers
                 return NotFound();
             }
 
-            return deck;
+            DeckDTO deckDTO = new DeckDTO
+            {
+                Id = deck.Id,
+                Name = deck.Name,
+                Description = deck.Description,
+                Cards = deck.Cards
+            };
+
+
+            return deckDTO;
         }
 
         //GET:/api/decks/5/cards - get specific card
